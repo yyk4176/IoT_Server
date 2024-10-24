@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/locks")
@@ -19,7 +23,7 @@ public class LockController {
         return lockService.getAllLocks();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") 
     public Lock getLockById(@PathVariable Long id) {
         return lockService.getLockById(id);
     }
@@ -33,6 +37,14 @@ public class LockController {
     public Lock updateLock(@PathVariable Long id, @RequestBody Lock lockDetails) {
         lockDetails.setId(id);
         return lockService.updateLock(id, lockDetails);
+    }
+
+    @PutMapping("/{id}/setstate/{state}")
+    public Lock putMethodName(@PathVariable Long id, @PathVariable boolean state) {
+        Lock lock = lockService.getLockById(id);
+        lock.setStatus(state);
+        lockService.updateLock(id, lock);
+        return lock;
     }
 
     @DeleteMapping("/{id}")
