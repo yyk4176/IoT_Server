@@ -40,7 +40,7 @@ public class LockController {
     }
 
     @PutMapping("/{id}/setstate/{state}")
-    public Lock putMethodName(@PathVariable Long id, @PathVariable boolean state) {
+    public Lock changeState(@PathVariable Long id, @PathVariable boolean state) {
         Lock lock = lockService.getLockById(id);
         lock.setStatus(state);
         lockService.updateLock(id, lock);
